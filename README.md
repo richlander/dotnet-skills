@@ -18,6 +18,20 @@
 /plugin install dotnet-skills@richlander-dotnet-skills
 ```
 
+## Updating
+
+To get the latest version of the plugin, first update the marketplace to refresh available versions, then update the installed plugin:
+
+```bash
+# Update marketplace to fetch latest versions
+/plugin marketplace update richlander-dotnet-skills
+
+# Update the installed plugin
+claude plugin update dotnet-skills@richlander-dotnet-skills
+```
+
+You can also update the marketplace through the interactive UI by running `/plugin`, navigating to the **Marketplaces** tab, selecting `richlander-dotnet-skills`, and choosing **Update marketplace**.
+
 ## Documentation
 
 - [Claude Code Plugins](https://docs.anthropic.com/en/docs/claude-code/plugins)
