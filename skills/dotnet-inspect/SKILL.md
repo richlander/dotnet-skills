@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-description: Inspect .NET assemblies and NuGet packages. Use when you need to get package metadata and version information, view public API surfaces, search for types, compare APIs between versions, or get direct access to commit-specific source (via Source Link). Works with NuGet packages, .NET platform/runtime assemblies, and local assembly files (via path). Essential for package exploration,API discovery, assembly auditing.
+description: Inspect .NET assemblies and NuGet packages. Use when you need to get package metadata and latest version information, view public API surfaces, search for types, compare APIs between versions, or get direct access to commit-specific source (via Source Link). Works with NuGet packages, .NET platform/runtime assemblies, and local assembly files (via path). Essential for package exploration, API discovery, assembly auditing.
 ---
 
 # dotnet-inspect
