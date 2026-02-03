@@ -1,4 +1,4 @@
-# Skills
+# dotnet-skills
 
 .NET skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code). The skills describe how use specific .NET tools that accelerate LLM-driven .NET + C# development.
 
