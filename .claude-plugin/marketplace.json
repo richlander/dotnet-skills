@@ -5,9 +5,9 @@
   },
   "plugins": [
     {
-      "name": "skills",
+      "name": "dotnet-skills",
       "source": "./",
-      "description": "Custom skills for Claude Code",
+      "description": ".NET skills for Claude Code",
       "version": "1.0.0"
     }
   ]

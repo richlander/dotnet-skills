@@ -15,7 +15,7 @@
 /plugin marketplace add richlander/skills
 
 # Install plugin
-/plugin install skills@skills
+/plugin install dotnet-skills@richlander-skills
 ```
 
 ## Documentation

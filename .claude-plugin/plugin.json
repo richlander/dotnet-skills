@@ -1,6 +1,6 @@
 {
-  "name": "skills",
-  "description": "Custom skills for Claude Code",
+  "name": "dotnet-skills",
+  "description": ".NET skills for Claude Code",
   "version": "1.0.0",
   "author": {
     "name": "Rich"
