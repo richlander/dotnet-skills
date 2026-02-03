@@ -12,10 +12,10 @@
 
 ```bash
 # Add marketplace
-/plugin marketplace add richlander/skills
+/plugin marketplace add richlander/dotnet-skills
 
 # Install plugin
-/plugin install dotnet-skills@richlander-skills
+/plugin install dotnet-skills@richlander-dotnet-skills
 ```
 
 ## Documentation
