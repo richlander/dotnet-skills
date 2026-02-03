@@ -1,11 +1,11 @@
 {
   "name": "dotnet-skills",
   "description": ".NET skills for Claude Code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Rich"
   },
   "license": "MIT",
-  "keywords": ["claude-code", "skills", "productivity"],
+  "keywords": ["dotnet", "nuget", "package", "assembly"],
   "skills": "./skills/"
 }
