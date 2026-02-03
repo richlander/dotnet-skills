@@ -1,0 +1,14 @@
+{
+  "name": "skills",
+  "owner": {
+    "name": "Rich Lander"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "Custom skills for Claude Code",
+      "version": "1.0.0"
+    }
+  ]
+}
