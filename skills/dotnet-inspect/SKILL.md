@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-description: Inspect .NET assemblies and NuGet packages. Use when you need to understand package contents, view public API surfaces, compare APIs between versions, or audit assemblies for SourceLink/determinism. Essential for .NET development tasks involving package exploration or API discovery.
+description: Inspect .NET assemblies and NuGet packages. Use when you need to get package metadata and version information, view public API surfaces, search for types, compare APIs between versions, or get direct access to commit-specific source (via Source Link). Works with NuGet packages, .NET platform/runtime assemblies, and local assembly files (via path). Essential for package exploration,API discovery, assembly auditing.
 ---
 
 # dotnet-inspect
@@ -20,6 +20,7 @@ dnx dotnet-inspect -y -- <command>
 ```
 
 **Important**:
+
 - Always use `-y` to skip the interactive confirmation prompt (which breaks LLM tool use). New package versions also trigger this prompt.
 - Always use `--` to separate dnx options from tool arguments. Without it, `--help` shows dnx help, not dotnet-inspect help.
 
@@ -35,15 +36,15 @@ dnx dotnet-inspect -y -- llmstxt
 
 ## Quick Reference
 
-| Command | Purpose |
-|---------|---------|
-| `package <name>` | Inspect NuGet package metadata, files, versions, dependencies |
-| `assembly <path>` | Inspect .NET assembly info, SourceLink/determinism audit |
-| `api <type>` | View public API surface of a type |
-| `type <type>` | Show type shape with hierarchy and members (tree view) |
-| `find <pattern>` | Search for types across packages, assemblies, or frameworks |
-| `diff <type>` | Compare API surfaces between package versions |
-| `llmstxt` | Show complete usage examples |
+| Command           | Purpose                                                       |
+| ----------------- | ------------------------------------------------------------- |
+| `package <name>`  | Inspect NuGet package metadata, files, versions, dependencies |
+| `assembly <path>` | Inspect .NET assembly info, SourceLink/determinism audit      |
+| `api <type>`      | View public API surface of a type                             |
+| `type <type>`     | Show type shape with hierarchy and members (tree view)        |
+| `find <pattern>`  | Search for types across packages, assemblies, or frameworks   |
+| `diff <type>`     | Compare API surfaces between package versions                 |
+| `llmstxt`         | Show complete usage examples                                  |
 
 ## Example Usage
 
