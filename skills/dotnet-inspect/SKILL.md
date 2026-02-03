@@ -52,7 +52,8 @@ dnx dotnet-inspect -y -- llmstxt
 # Package exploration
 dnx dotnet-inspect -y -- package System.Text.Json
 dnx dotnet-inspect -y -- package System.CommandLine --files
-dnx dotnet-inspect -y -- package System.Text.Json --versions
+dnx dotnet-inspect -y -- package System.Text.Json --versions -n 1  # latest only
+dnx dotnet-inspect -y -- package System.Text.Json --versions       # all versions
 
 # View type APIs
 dnx dotnet-inspect -y -- api JsonSerializer --package System.Text.Json
@@ -71,6 +72,7 @@ dnx dotnet-inspect -y -- find JsonSerializer --package System.Text.Json
 
 ## When to Use This Skill
 
+- Getting the latest version of a NuGet package
 - Exploring what types/APIs a NuGet package provides
 - Searching for types by pattern across packages or frameworks
 - Understanding method signatures and overloads
