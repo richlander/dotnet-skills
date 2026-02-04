@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-description: Inspect .NET assemblies and NuGet packages. Use when you need to get package metadata and latest version information, view public API surfaces, search for types, compare APIs between versions, or get direct access to commit-specific source (via Source Link). Works with NuGet packages, .NET platform/runtime assemblies, and local assembly files (via path). Essential for package exploration, API discovery, assembly auditing.
+description: Inspect .NET assemblies and NuGet packages. Use when you need to understand package contents, view public API surfaces, compare APIs between versions, or audit assemblies for SourceLink/determinism. Essential for .NET development tasks involving package exploration or API discovery.
 ---
 
 # dotnet-inspect
@@ -20,84 +20,62 @@ dnx dotnet-inspect -y -- <command>
 ```
 
 **Important**:
-
 - Always use `-y` to skip the interactive confirmation prompt (which breaks LLM tool use). New package versions also trigger this prompt.
 - Always use `--` to separate dnx options from tool arguments. Without it, `--help` shows dnx help, not dotnet-inspect help.
 
-## Getting Started
+## Quick Patterns
 
-Run this command for complete usage instructions:
+Start with these common workflows:
+
+```bash
+# Understand a type's API shape (start here - most useful for learning APIs)
+dnx dotnet-inspect -y -- type JsonSerializer --package System.Text.Json
+
+# Compare API changes between versions (essential for migrations)
+dnx dotnet-inspect -y -- diff Command --package System.CommandLine@2.0.0-beta4..2.0.2
+dnx dotnet-inspect -y -- diff JsonSerializer --package System.Text.Json@9.0.0..10.0.0
+
+# Search for types by pattern
+dnx dotnet-inspect -y -- find "*Handler*" --package System.CommandLine
+dnx dotnet-inspect -y -- find "*Logger*" --framework runtime
+
+# Package metadata and versions
+dnx dotnet-inspect -y -- package System.Text.Json
+dnx dotnet-inspect -y -- package System.Text.Json --versions
+```
+
+## Key Flags
+
+| Flag | Purpose |
+|------|---------|
+| `-v:d` | Detailed output (full signatures, more info) |
+| `--docs` | Include XML documentation from source |
+| `-m Name` | Filter to specific member(s) |
+| `-n 10` | Limit results |
+| `--signatures-only` | Plain text output (no formatting) |
+
+## Command Reference
+
+| Command | Purpose |
+|---------|---------|
+| `type <type>` | **Start here.** Type shape with hierarchy and members (tree view) |
+| `diff <type>` | Compare API surfaces between package versions |
+| `api <type>` | View public API surface (table format) |
+| `find <pattern>` | Search for types across packages, assemblies, or frameworks |
+| `package <name>` | Package metadata, files, versions, dependencies |
+| `assembly <path>` | Assembly info, SourceLink/determinism audit |
+| `llmstxt` | Complete usage examples for all commands |
+
+## Full Documentation
+
+For comprehensive examples and edge cases:
 
 ```bash
 dnx dotnet-inspect -y -- llmstxt
 ```
 
-**DO THIS FIRST.** The `llmstxt` command provides comprehensive examples for all commands and workflows.
-
-## Quick Reference
-
-| Command           | Purpose                                                       |
-| ----------------- | ------------------------------------------------------------- |
-| `package <name>`  | Inspect NuGet package metadata, files, versions, dependencies |
-| `assembly <path>` | Inspect .NET assembly info, SourceLink/determinism audit      |
-| `api <type>`      | View public API surface of a type                             |
-| `type <type>`     | Show type shape with hierarchy and members (tree view)        |
-| `find <pattern>`  | Search for types across packages, assemblies, or frameworks   |
-| `diff <type>`     | Compare API surfaces between package versions                 |
-| `llmstxt`         | Show complete usage examples                                  |
-
-## Example Usage
-
-```bash
-# Package exploration
-dnx dotnet-inspect -y -- package System.Text.Json
-dnx dotnet-inspect -y -- package System.CommandLine --files
-dnx dotnet-inspect -y -- package System.Text.Json --versions -n 1  # latest only
-dnx dotnet-inspect -y -- package System.Text.Json --versions       # all versions
-
-# View type APIs
-dnx dotnet-inspect -y -- api JsonSerializer --package System.Text.Json
-dnx dotnet-inspect -y -- api Command --package System.CommandLine -m SetAction
-
-# Compare versions
-dnx dotnet-inspect -y -- diff JsonSerializer --package System.Text.Json@9.0.0..10.0.0
-
-# Type hierarchy
-dnx dotnet-inspect -y -- type Command --package System.CommandLine
-
-# Search for types (use find when unsure where a type lives)
-dnx dotnet-inspect -y -- find "*Logger*" --framework runtime
-dnx dotnet-inspect -y -- find JsonSerializer --package System.Text.Json
-dnx dotnet-inspect -y -- find ILogger --framework runtime --package Microsoft.Extensions.Logging
-```
-
-## Package vs Platform
-
-Some assemblies exist in both NuGet packages and the .NET platform (installed SDK):
-
-```bash
-# From NuGet package (downloads if needed)
-dnx dotnet-inspect -y -- api JsonSerializer --package System.Text.Json@9.0.0
-
-# From installed SDK (no download, uses local SDK)
-dnx dotnet-inspect -y -- api JsonSerializer --platform System.Text.Json
-```
-
-**When to use each:**
-- **Package (`--package`)**: Third-party libraries, specific versions, packages not in SDK
-- **Platform (`--platform`)**: .NET runtime/SDK assemblies, comparing SDK versions, no network needed
-
-**Use `find` to search across both:**
-```bash
-# Search both platform and package together
-dnx dotnet-inspect -y -- find JsonSerializer --framework runtime --package Newtonsoft.Json
-```
-
-The `find` command is the best starting point when you're unsure where a type lives.
-
 ## When to Use This Skill
 
-- Getting the latest version of a NuGet package
 - Exploring what types/APIs a NuGet package provides
 - Searching for types by pattern across packages or frameworks
 - Understanding method signatures and overloads
