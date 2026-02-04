@@ -4,9 +4,14 @@
 
 ## Getting Started
 
-Use `/plugin` to manage marketplaces and install plugins. For a complete walkthrough with screenshots for both Copilot and Claude Code, see [Skill marketplace walkthrough](https://github.com/richlander/dotnet-skills/issues/1).
+Use `/plugin` to manage marketplaces and install plugins. For a complete walkthrough with screenshots for both Copilot and Claude Code.
 
 **Copilot users**: Start with `/plugin marketplace add richlander/dotnet-skills`
+
+See:
+
+- [Copilot Marketplace Walkthrough](https://github.com/richlander/dotnet-skills/issues/1)
+- [Claude Code Marketplace Walkthrough](https://github.com/richlander/dotnet-skills/issues/2)
 
 ## Available Skills
 
