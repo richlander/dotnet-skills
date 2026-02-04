@@ -8,7 +8,7 @@
       "name": "dotnet-skills",
       "source": "./",
       "description": ".NET skills for coding assistants",
-      "version": "1.0.0"
+      "version": "1.0.4"
     }
   ]
 }
