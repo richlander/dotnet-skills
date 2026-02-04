@@ -65,10 +65,35 @@ dnx dotnet-inspect -y -- diff JsonSerializer --package System.Text.Json@9.0.0..1
 # Type hierarchy
 dnx dotnet-inspect -y -- type Command --package System.CommandLine
 
-# Search for types
+# Search for types (use find when unsure where a type lives)
 dnx dotnet-inspect -y -- find "*Logger*" --framework runtime
 dnx dotnet-inspect -y -- find JsonSerializer --package System.Text.Json
+dnx dotnet-inspect -y -- find ILogger --framework runtime --package Microsoft.Extensions.Logging
 ```
+
+## Package vs Platform
+
+Some assemblies exist in both NuGet packages and the .NET platform (installed SDK):
+
+```bash
+# From NuGet package (downloads if needed)
+dnx dotnet-inspect -y -- api JsonSerializer --package System.Text.Json@9.0.0
+
+# From installed SDK (no download, uses local SDK)
+dnx dotnet-inspect -y -- api JsonSerializer --platform System.Text.Json
+```
+
+**When to use each:**
+- **Package (`--package`)**: Third-party libraries, specific versions, packages not in SDK
+- **Platform (`--platform`)**: .NET runtime/SDK assemblies, comparing SDK versions, no network needed
+
+**Use `find` to search across both:**
+```bash
+# Search both platform and package together
+dnx dotnet-inspect -y -- find JsonSerializer --framework runtime --package Newtonsoft.Json
+```
+
+The `find` command is the best starting point when you're unsure where a type lives.
 
 ## When to Use This Skill
 
