@@ -1,6 +1,6 @@
 {
   "name": "dotnet-skills",
-  "description": ".NET skills for Claude Code",
+  "description": ".NET skills for coding assistants",
   "version": "1.0.3",
   "author": {
     "name": "Rich"
