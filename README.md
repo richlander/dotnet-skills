@@ -15,8 +15,8 @@ See:
 
 ## Available Skills
 
-| Skill | Description |
-|-------|-------------|
+| Skill            | Description                                |
+|------------------|--------------------------------------------|
 | `dotnet-inspect` | Inspect .NET assemblies and NuGet packages |
 
 ## Installation
