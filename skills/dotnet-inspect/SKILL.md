@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-version: 0.6.0
+version: 0.6.7
 description: Query .NET APIs across NuGet packages, platform libraries, and local files. Search for types, list API surfaces, compare and diff versions, find extension methods and implementors. Use whenever you need to answer questions about .NET library contents.
 ---
 
@@ -16,10 +16,11 @@ Query .NET library APIs — the same commands work across NuGet packages, platfo
 - **Need signatures?** → `member Type --package Foo -m Method` (default shows full signatures + docs)
 - **Need source/IL?** → `member Type --package Foo -m Method:1 -v:d` (Source, Lowered C#, IL)
 - **Need constructors?** → `member 'Type<T>' --package Foo -m .ctor` (use `<T>` not `<>`)
-- **Need all overloads?** → `member Type --package Foo --select` (shows `Name:N` indices)
+- **Need all overloads?** → `member Type --package Foo --show-index` (shows `Name:N` indices)
 - **Need package dependencies?** → `depends --package Foo`
 - **Need type hierarchy?** → `depends 'INumber<TSelf>'`
 - **Need specific fields?** → `-S Section --fields "PDB*"` (structured query, no DSL)
+- **Need a version?** → `Foo --version` (cache-first), `Foo --latest-version` (always NuGet), `Foo --versions` (list all)
 
 ## When to Use This Skill
 
@@ -31,6 +32,9 @@ Query .NET library APIs — the same commands work across NuGet packages, platfo
 - **"What implements this interface?"** — `implements` finds concrete types
 - **"What does this type depend on?"** — `depends` walks type hierarchy, package deps, or library refs
 - **"What version/metadata does this have?"** — `package` and `library` inspect metadata
+- **"What version is available?"** — `Foo --version` (fast, cache-first — like `docker run`)
+- **"What's the latest on NuGet?"** — `Foo --latest-version` (always queries NuGet — like `docker pull`)
+- **"What versions exist?"** — `Foo --versions` (list all published versions)
 - **"What TFMs are available?"** — `package Foo --tfms`, then `type --package Foo --tfm net8.0`
 - **"Show me something cool"** — `demo` runs curated showcase queries
 
@@ -58,6 +62,46 @@ Use `diff` first when fixing broken code — triage changes, then drill into spe
 dnx dotnet-inspect -y -- diff --package System.CommandLine@2.0.0-beta4.22272.1..2.0.3  # what changed?
 dnx dotnet-inspect -y -- member Command --package System.CommandLine@2.0.3               # new API surface
 ```
+
+## Version Resolution (Docker-style)
+
+Version queries use Docker-like semantics: cached packages are served in under 15ms, network calls cost 1–4 seconds. Three flags, three behaviors:
+
+| Flag | Behavior | Network | Like Docker... |
+| ---- | -------- | ------- | -------------- |
+| `--version` (bare) | **Local** — returns the version from local cache | Only on cache miss | `docker run nginx` |
+| `--latest-version` | **Remote** — queries nuget.org for the absolute latest | Always | `docker pull nginx` |
+| `--versions` | **Remote** — returns every published version | Always | `docker image ls --all` |
+
+`--version` and bare-name inspection share the same cache. If `Foo --version` returns `2.0.3`, then `Foo` (or `package Foo`) will inspect that same `2.0.3` — no surprises, no extra network call. This is the fast path for most tasks.
+
+`--latest-version` and `--versions` always query nuget.org, so they reflect the latest published state. Use `--latest-version` when you need to confirm the newest version, e.g., before a dependency upgrade.
+
+```bash
+dnx dotnet-inspect -y -- Foo --version           # what's in the cache? (fast, local)
+dnx dotnet-inspect -y -- Foo --latest-version     # what's on nuget.org? (always network)
+dnx dotnet-inspect -y -- Foo --versions           # list all published versions
+dnx dotnet-inspect -y -- Foo --versions 5         # list latest 5 versions
+dnx dotnet-inspect -y -- Foo --versions --preview # include prerelease versions
+```
+
+The same flags work on the `package` subcommand:
+
+```bash
+dnx dotnet-inspect -y -- package Foo --version           # same local cache check
+dnx dotnet-inspect -y -- package Foo --latest-version     # always queries nuget.org
+dnx dotnet-inspect -y -- package Foo --versions           # list all versions
+```
+
+Version pinning with `@version` syntax:
+
+```bash
+dnx dotnet-inspect -y -- Foo@2.0.3                # pinned — no network if cached
+dnx dotnet-inspect -y -- Foo@latest               # always checks nuget.org
+dnx dotnet-inspect -y -- Foo                      # prefer cache, refresh on TTL expiry
+```
+
+**Use `--version` (not `--latest-version`) as the default.** It's fast and returns the same version that bare-name commands will use. Only reach for `--latest-version` when you need the absolute latest from nuget.org.
 
 ## Structured Queries (like Go templates, without a DSL)
 
@@ -114,6 +158,7 @@ dnx dotnet-inspect -y -- type System.Text.Json -5                    # first 5 l
 - **`-m N`** (numeric) — item limit (members per kind section).
 - **`-k Kind`** — filter by kind: `class/struct/interface/enum/delegate` (type) or `method/property/field/event/constructor` (type single-type view, member).
 - **`-S Section`** — show only a specific section (glob-capable).
+- **`--all`** — include non-public (private, protected, internal), hidden, and obsolete members. Kind/signature columns show access level.
 
 ## Key Syntax
 
