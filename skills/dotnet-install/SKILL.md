@@ -38,6 +38,12 @@ dotnet-install setup
 curl -sSfL https://github.com/richlander/dotnet-install/raw/refs/heads/main/install.sh | sh
 ```
 
+If already installed, update to the latest version:
+
+```bash
+dotnet-install update dotnet-install
+```
+
 ## Install modes
 
 ### From NuGet (pre-built, no SDK required)
