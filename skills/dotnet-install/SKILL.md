@@ -30,12 +30,12 @@ dotnet-install --version
 If not installed, install it:
 
 ```bash
-# Option 1: install script (recommended)
-curl -sSfL https://github.com/richlander/dotnet-install/raw/refs/heads/main/install.sh | sh
-
-# Option 2: via dotnet tool (bootstrap)
+# Option 1: via dotnet tool (requires .NET 10+ SDK)
 dotnet tool install -g dotnet-install
 dotnet-install setup
+
+# Option 2: install script (Unix only, no SDK required)
+curl -sSfL https://github.com/richlander/dotnet-install/raw/refs/heads/main/install.sh | sh
 ```
 
 ## Install modes
