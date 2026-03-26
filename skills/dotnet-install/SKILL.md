@@ -1,9 +1,9 @@
 ---
 name: dotnet-install
 description: >
-  Install .NET executables to PATH — like cargo install and go install.
+  Build, install, list, and remove .NET tools using dotnet-install.
   Use when the user wants to install, manage, or run .NET tools.
-  Covers NuGet packages, GitHub repos, and local projects.
+  Covers NuGet packages, GitHub repos, git URLs, and local projects.
 ---
 
 # dotnet-install
@@ -32,7 +32,7 @@ If not installed, install it:
 ```bash
 # Option 1: via dotnet tool (requires .NET 10+ SDK)
 dotnet tool install -g dotnet-install
-dotnet-install setup
+dotnet-install doctor --fix
 
 # Option 2: install script (Unix only, no SDK required)
 curl -sSfL https://github.com/richlander/dotnet-install/raw/refs/heads/main/install.sh | sh
@@ -44,7 +44,25 @@ If already installed, update to the latest version:
 dotnet-install update dotnet-install
 ```
 
-## Install modes
+## Install sources
+
+Each source requires an explicit flag. With no arguments,
+`dotnet-install` in a directory with a project builds and
+installs it (like `dotnet publish`). With nothing to act on,
+it prints help.
+
+### From local source (builds)
+
+Requires .NET SDK.
+
+```bash
+dotnet-install                      # current directory (like dotnet publish)
+dotnet-install src/my-tool          # positional path
+dotnet-install --project src/my-tool # explicit (like dotnet run --project)
+dotnet-install app.cs               # file-based app (.NET 10+)
+```
+
+`--path` is an alias for `--project`.
 
 ### From NuGet (pre-built, no SDK required)
 
@@ -58,30 +76,38 @@ dotnet-install --package dotnet-counters@9.0.0
 Requires git and .NET SDK.
 
 ```bash
-dotnet-install --github richlander/dotnetsay
-dotnet-install --github owner/repo@v1.0 --ssh
+dotnet-install --github owner/repo            # tracks default branch, updatable
+dotnet-install --github owner/repo --branch main   # tracks branch, updatable
+dotnet-install --github owner/repo --tag v2.0      # pinned, no updates
+dotnet-install --github owner/repo --rev abc123    # pinned, no updates
+dotnet-install --github owner/repo@v2.0            # shorthand, pinned
+dotnet-install --github owner/repo --ssh           # clone via SSH
 ```
 
-### From local source (builds)
+### From any git URL (clones and builds)
 
-Requires .NET SDK.
+Requires git and .NET SDK.
 
 ```bash
-dotnet-install .                    # current directory
-dotnet-install src/my-tool          # subdirectory
-dotnet-install app.cs               # file-based app (.NET 10+)
+dotnet-install --git https://example.com/repo.git
+dotnet-install --git https://example.com/repo.git --tag v1.0
 ```
 
-### Positional args (auto-classified)
+When combined with `--github` or `--git`, `--project`
+specifies a sub-path within the cloned repository.
 
-```bash
-dotnet-install dotnetsay                  # bare name → NuGet
-dotnet-install richlander/dotnetsay       # owner/repo → GitHub
-dotnet-install ./src/tool                 # local path → source build
-```
+## Git ref options
 
-Use explicit flags (`--package`, `--github`) for
-non-interactive and CI environments.
+| Flag         | Pinned | Example                         |
+|--------------|--------|---------------------------------|
+| (none)       | no     | default branch, tracks upstream |
+| `--branch`   | no     | named branch, tracks upstream   |
+| `--tag`      | yes    | fixed tag, no updates           |
+| `--rev`      | yes    | fixed commit SHA, no updates    |
+| `@ref`       | yes    | shorthand in `--github` spec    |
+
+Pinned installs are skipped by `dotnet-install update`.
+To change versions, uninstall and reinstall.
 
 ## Subcommands
 
@@ -107,7 +133,19 @@ Tools are installed to `~/.dotnet/bin/` by default.
 |----------|--------|
 | `-o <dir>` | Custom output directory |
 | `--local-bin` | Use `~/.local/bin/` instead |
-| `DOTNET_INSTALL_HOME` env var | Persistent override |
+| `DOTNET_TOOL_BIN` env var | Persistent override |
+
+## PATH configuration
+
+`dotnet-install` uses a dedicated env file (`~/.dotnet/bin/env`)
+sourced from the shell rc file, following the same pattern as
+Rustup (`~/.cargo/env`). Run `dotnet-install doctor --fix` to
+configure PATH automatically. To activate in the current shell:
+
+```bash
+. "$HOME/.dotnet/bin/env"            # sh/bash/zsh
+source "$HOME/.dotnet/bin/env.fish"  # fish
+```
 
 ## Configuration
 
@@ -117,15 +155,21 @@ dotnet-install config tip.quiet true          # suppress PATH tips
 dotnet-install config manage-global-tools true  # drain dotnet global tools via doctor
 ```
 
-## Behavior notes
+## Reliable behavior
 
-- NuGet installs handle pointer packages (meta-packages
-  that redirect to RID-specific binaries) automatically
-- NativeAOT single-file binaries are placed directly in
-  the install dir; managed tools use a `_<name>/`
-  subdirectory with a symlink or `.cmd` shim
-- `run` downloads to a cache, executes, and does not
-  install permanently
-- Package signatures are verified when present
+- Git updates verify that remote history is a
+  continuation of local history. If a force push
+  is detected, the update is refused — the user must
+  uninstall and reinstall the tool.
+- Pinned installs (`--tag`, `--rev`, `@ref`) are
+  immutable. `update` skips them and reports the
+  pinned ref. Changing versions requires an explicit
+  uninstall and reinstall.
+- Building from source requires the .NET SDK;
+  `--package` works without the SDK.
+- NuGet installs auto-enable roll-forward if the
+  tool targets an older runtime.
+- `--require-sourcelink` enforces SourceLink metadata
+  in installed assemblies.
 - Missing prereqs (git, .NET SDK) produce actionable
-  error messages with install links
+  error messages with install links.
