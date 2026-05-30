@@ -1,14 +1,14 @@
 {
   "name": "richlander-dotnet-skills",
   "owner": {
-    "name": "Rich Lander"
+    "name": "Richard Lander"
   },
   "plugins": [
     {
       "name": "dotnet-skills",
       "source": "./",
       "description": ".NET skills for coding assistants",
-      "version": "0.8.0"
+      "version": "0.8.1"
     }
   ]
 }
