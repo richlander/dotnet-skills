@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-version: 0.8.0
+version: 0.8.1
 description: Query .NET APIs across NuGet packages, platform libraries, and local files. Use for factual answers about package contents, API signatures, compatibility changes, relationships, SourceLink, and assembly metadata.
 ---
 
@@ -43,7 +43,7 @@ dnx dotnet-inspect -y -- member JsonSerializer --package System.Text.Json
 dnx dotnet-inspect -y -- source JsonSerializer --package System.Text.Json --oneline
 ```
 
-Use `--platform <LibraryName>` for installed .NET framework libraries, `--package Foo[@version]` for NuGet packages, and `--library` for a local DLL or a specific library inside a multi-library package. For upgrades, start with `diff`, then inspect affected members:
+Bare names use the router: platform-looking names are tried as installed platform libraries first, then fall back to NuGet packages if platform resolution fails. Use explicit `--platform <LibraryName>`, `--package Foo[@version]`, or `--library` when the source matters. For upgrades, start with `diff`, then inspect affected members:
 
 ```bash
 dnx dotnet-inspect -y -- diff --package System.Text.Json@9.0.0..10.0.0 --breaking
