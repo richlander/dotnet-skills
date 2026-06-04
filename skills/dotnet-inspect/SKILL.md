@@ -1,24 +1,26 @@
 ---
 name: dotnet-inspect
-version: 0.8.1
-description: Query .NET APIs across NuGet packages, platform libraries, and local files. Use for factual answers about package contents, API signatures, compatibility changes, relationships, SourceLink, and assembly metadata.
+version: 0.9.0
+description: Bootstrap skill for dotnet-inspect. Use it to query .NET APIs, packages, platform libraries, SourceLink, dependencies, and version-to-version API changes.
 ---
 
 # dotnet-inspect
 
 Use dotnet-inspect when you need evidence about .NET libraries instead of guessing: API signatures, package contents, extension methods, implementors, SourceLink URLs, dependencies, or version-to-version API changes.
 
-Invoke through `dnx` unless installed:
+Invoke through `dnx` unless the tool is already installed:
 
 ```bash
 dnx dotnet-inspect -y -- <command>
 ```
 
-For the full version-specific workflow guide, run:
+For the authoritative workflow guide for the installed tool version, run:
 
 ```bash
 dnx dotnet-inspect -y -- skill
 ```
+
+Prefer that embedded skill output over this marketplace bootstrap file when commands or section names differ. It is versioned with the tool and prevents stale skill guidance after breaking CLI changes.
 
 Default output is Markdown. Use `--oneline` to scan, `--json` for structured data, `--count` to count one selected table section, and `-n N` to limit output without losing headers.
 
@@ -29,7 +31,7 @@ Default output is Markdown. Use `--oneline` to scan, `--json` for structured dat
 | Find where a type lives | `find Pattern --oneline` |
 | Inspect APIs | `type Type --package Foo`, then `member Type --package Foo` |
 | Compare versions | `diff --package Foo@old..new --breaking` |
-| Audit package/library | `package Foo`, `library Foo`, or `library ./path/to.dll` |
+| Inspect package/library signals | `library Foo -S Signals` or `package Foo -S Signals` |
 | Resolve SourceLink URLs | `source Type --package Foo --oneline` |
 | Explore relationships | `depends Type`, `extensions Type`, `implements Interface` |
 
@@ -43,12 +45,7 @@ dnx dotnet-inspect -y -- member JsonSerializer --package System.Text.Json
 dnx dotnet-inspect -y -- source JsonSerializer --package System.Text.Json --oneline
 ```
 
-Bare names use the router: platform-looking names are tried as installed platform libraries first, then fall back to NuGet packages if platform resolution fails. Use explicit `--platform <LibraryName>`, `--package Foo[@version]`, or `--library` when the source matters. For upgrades, start with `diff`, then inspect affected members:
-
-```bash
-dnx dotnet-inspect -y -- diff --package System.Text.Json@9.0.0..10.0.0 --breaking
-dnx dotnet-inspect -y -- member JsonSerializer --package System.Text.Json@10.0.0
-```
+Bare names use the router: platform-looking names are tried as installed platform libraries first, then fall back to NuGet packages if platform resolution fails. Use explicit `--platform <LibraryName>`, `--package Foo[@version]`, or `--library` when the source matters.
 
 ## Output control
 
@@ -62,6 +59,7 @@ dnx dotnet-inspect -y -- library System.Text.Json -S "Async*" --count
 
 ## Guardrails
 
+- First run `dnx dotnet-inspect -y -- skill` when doing non-trivial work; it contains the current, tool-embedded guidance.
 - Quote generic type names and use `<T>`, not `<>`: `'Option<T>'`, `'INumber<TSelf>'`.
 - `type` uses `-t` for type filters; `member` uses `-m` for member filters.
 - Dotted member syntax works: `-m JsonSerializer.Deserialize`.
