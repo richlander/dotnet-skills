@@ -1,14 +1,14 @@
 ---
 name: dotnet-inspect
-version: 0.9.0
-description: Bootstrap skill for dotnet-inspect. Use it to query .NET APIs, packages, platform libraries, SourceLink, dependencies, and version-to-version API changes.
+version: 0.9.2
+description: Find evidence instead of guessing for .NET packages, platform libraries, local assemblies, APIs, dependencies, SourceLink/symbol provenance, and version-to-version API changes.
 ---
 
 # dotnet-inspect
 
-Use dotnet-inspect when you need evidence about .NET libraries instead of guessing: API signatures, package contents, extension methods, implementors, SourceLink URLs, dependencies, or version-to-version API changes.
+Use dotnet-inspect when you need evidence instead of guesses for .NET packages, platform libraries, local assemblies, APIs, dependencies, SourceLink/symbol provenance, or version-to-version API changes.
 
-Invoke through `dnx` unless the tool is already installed:
+Invoke with `dnx`:
 
 ```bash
 dnx dotnet-inspect -y -- <command>
@@ -22,7 +22,7 @@ dnx dotnet-inspect -y -- skill
 
 Prefer that embedded skill output over this marketplace bootstrap file when commands or section names differ. It is versioned with the tool and prevents stale skill guidance after breaking CLI changes.
 
-Default output is Markdown. Use `--oneline` to scan, `--json` for structured data, `--count` to count one selected table section, and `-n N` to limit output without losing headers.
+Default output is Markdown. Use `--oneline` for compact tabular output like `docker images`, and `--json` for structured automation. For output, query, and limiter details such as `-D`, `-S "Async*"`, `-n`, `--tail`, and `--rows`, run the embedded guide.
 
 ## Fast starts
 
