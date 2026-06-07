@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-version: 0.9.2
+version: 0.9.6
 description: Find evidence instead of guessing for .NET packages, platform libraries, local assemblies, APIs, dependencies, SourceLink/symbol provenance, and version-to-version API changes.
 ---
 
@@ -22,7 +22,7 @@ dnx dotnet-inspect -y -- skill
 
 Prefer that embedded skill output over this marketplace bootstrap file when commands or section names differ. It is versioned with the tool and prevents stale skill guidance after breaking CLI changes.
 
-Default output is Markdown. Use `--oneline` for compact tabular output like `docker images`, and `--json` for structured automation. For output, query, and limiter details such as `-D`, `-S "Async*"`, `-n`, `--tail`, and `--rows`, run the embedded guide.
+Default output is Markdown. Use `--oneline` for compact tabular output like `docker images`, and `--json` for structured automation. For output, query, and limiter details such as `-D`, bare `-S`, `-S "Async*"`, `-n`, `--tail`, and `--rows`, run the embedded guide.
 
 ## Fast starts
 
@@ -49,7 +49,7 @@ Bare names use the router: platform-looking names are tried as installed platfor
 
 ## Output control
 
-Discover sections with `-D` or bare `-S`, then select with `-S Section`. Project table columns with `--columns`, fields with `--fields`, and count rows with `--count` when exactly one section is selected.
+Discover sections with `-D`, use bare `-S` for a curated high-density view, and select named sections with `-S Section`. Project table columns with `--columns`, fields with `--fields`, and count rows with `--count` when exactly one section is selected.
 
 ```bash
 dnx dotnet-inspect -y -- member JsonSerializer --package System.Text.Json -D
