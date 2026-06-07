@@ -1,7 +1,7 @@
 {
   "name": "dotnet-skills",
   "description": ".NET skills for coding assistants",
-  "version": "0.9.2",
+  "version": "0.9.6",
   "author": {
     "name": "Richard Lander"
   },
