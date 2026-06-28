@@ -15,9 +15,10 @@ See:
 
 ## Available Skills
 
-| Skill            | Description                                |
-|------------------|--------------------------------------------|
-| `dotnet-inspect` | Inspect .NET assemblies and NuGet packages |
+| Skill                      | Description                                                                      |
+|----------------------------|----------------------------------------------------------------------------------|
+| `dotnet-inspect`           | Inspect .NET assemblies and NuGet packages                                       |
+| `dotnet-allocation-triage` | Static allocation triage of compiled assemblies, confirmed by profiler/benchmark |
 
 ## Installation
 
