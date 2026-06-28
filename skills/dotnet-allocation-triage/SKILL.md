@@ -38,7 +38,13 @@ dotnet build -c Release
 dnx dotnet-inspect -y -- library bin/Release/<tfm>/<Assembly>.dll -S "Performance Triage"
 ```
 
-For machine-readable output add `--json` (or `--tsv`/`--jsonl`); cap rows with `-n <N> --rows`.
+The section is already ordered to surface pay-dirt first — in-loop allocations, then by confidence, then by call-graph reach. So for a quick top-findings view, cap the rows and you get the highest-value sites directly, no filtering needed:
+
+```bash
+dnx dotnet-inspect -y -- library bin/Release/<tfm>/<Assembly>.dll -S "Performance Triage" -n 15 --rows
+```
+
+For machine-readable output add `--json` (or `--tsv`/`--jsonl`) — useful when you want every row to group or filter by shape yourself.
 
 ### Read the table
 
