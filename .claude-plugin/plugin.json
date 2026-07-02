@@ -1,10 +1,10 @@
 {
   "name": "dotnet-skills",
   "description": ".NET skills for coding assistants",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "author": {
     "name": "Richard Lander"
   },
   "license": "MIT",
-  "keywords": ["dotnet", "nuget", "package", "library"]
+  "keywords": ["dotnet", "nuget", "package", "library", "debugging", "diagnostics"]
 }
