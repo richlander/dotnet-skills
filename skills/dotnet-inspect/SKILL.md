@@ -22,8 +22,9 @@ dotnet-inspect.
 ## Basic UX
 
 - Start with `find Pattern` when you do not know where an API lives.
-- Inspect with `package Foo`, `library Foo` or `library path/to.dll`,
-  `type Type`, and `member Type Member:1`.
+- Inspect roots with `package Foo`, `library Foo`, or `library path/to.dll`.
+- Reuse the package, library, or platform scope reported by `find` with
+  `type Type --package Foo` or `member Type Member:1 --package Foo`.
 - Add `--project path/to/project` for restored project dependencies.
 - Compare versions with `diff --package Foo@old..new --breaking`.
 - Use `-D` to discover sections, `-S` to select them, and `-Q` to discover
