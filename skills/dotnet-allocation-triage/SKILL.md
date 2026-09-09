@@ -1,6 +1,6 @@
 ---
 name: dotnet-allocation-triage
-version: 0.1.0
+version: 0.25.0
 description: Cross-tool workflow to reduce .NET heap allocations — static triage with dotnet-inspect, then confirm the win with BenchmarkDotNet or dotnet-trace/dotnet-counters before changing code. Use when chasing allocation hot spots on a hot path.
 ---
 
