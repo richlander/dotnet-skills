@@ -1,6 +1,6 @@
 ---
 name: dotnet-inspect
-version: 0.25.0
+version: 0.26.0
 description: Find evidence instead of guessing for .NET packages, platform libraries, assemblies, APIs, dependencies, source, performance, and version-to-version changes.
 ---
 
@@ -25,6 +25,7 @@ dotnet-inspect.
 - Inspect roots with `package Foo`, `library Foo`, or `library path/to.dll`.
 - Reuse the package, library, or platform scope reported by `find` with
   `type Type --package Foo` or `member Type Member:1 --package Foo`.
+- Select `-S Source` on one exact Type or Member for authored-first source.
 - Add `--project path/to/project` for restored project dependencies.
 - Compare versions with `diff --package Foo@old..new --breaking`.
 - Use `-D` to discover sections, `-S` to select them, and `-Q` to discover
@@ -49,8 +50,8 @@ list` for the inventory, or `skill <name>` for one focused guide.
 | `sourcelink` | PDB mappings, source locations, and verified source |
 | `metadata` | Raw ECMA-335 tables, heaps, handles, and rows |
 | `decompiler` | Decompiled C#, annotated source, IL, and fidelity |
-| `performance` | Call-graph leverage and allocation/performance triage |
-| `relationships` | Dependencies, callers, implementors, and extensions |
+| `performance` | Library metrics, call-graph leverage, and allocation/performance triage |
+| `relationships` | Dependencies, package call graphs, callers, implementors, and extensions |
 
 For non-trivial work, load the relevant embedded guide and prefer it whenever
 commands, sections, output shapes, or workflow guidance differ from this
