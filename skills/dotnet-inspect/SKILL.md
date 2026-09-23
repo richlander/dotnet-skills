@@ -22,6 +22,7 @@ dotnet-inspect.
 ## Basic UX
 
 - Start with `find Pattern` when you do not know where an API lives.
+- Discover package IDs with `package query Foo` or `package query 'Foo.*'`.
 - Inspect roots with `package Foo`, `library Foo`, or `library path/to.dll`.
 - Reuse the package, library, or platform scope reported by `find` with
   `type Type --package Foo` or `member Type Member:1 --package Foo`.
